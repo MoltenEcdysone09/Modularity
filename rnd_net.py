@@ -16,7 +16,7 @@ E = 10
 RN = 10
 
 # Create a directory in current working directory to store topo files
-os.mkdir("TOPO"+str(N)+str(E))
+#os.mkdir("TOPO"+str(N)+str(E))
 
 # Change current working directory
 os.chdir("TOPO"+str(N)+str(E))
@@ -81,12 +81,13 @@ for r in range(0,RN):
 
     # Run the make netwrok function; returns rnet
     mk_net(N,E)
-
+    #print(np.count_nonzero(rnet))
     # Run the topo_lin function; returns tpli which has line to be written in the topo file
     topo_lin(rnet)
-
+    #print(len(tpli))
     # Write the elements in tpli into a topo file as lines
     with open('RN' + format(r+1, '03d') + ".topo", 'w') as tf:
-        for l in range(0,E+2):
+        # E+2+1 as 2 nodes in embedded motif and 1 header line
+        for l in range(0,E+2+1):
             tf.write(tpli[l]+"\n")
 
