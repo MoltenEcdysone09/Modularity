@@ -8,12 +8,12 @@ import random
 import os
 
 # Total Number of Nodes
-N = 7
+N = 9
 # Number of Edges (Except the embedded network)
 E = 10
 
 # Number of Random Netwroks needed
-RN = 10
+RN = 3
 
 # Create a directory in current working directory to store topo files
 os.mkdir("TOPO"+str(N)+str(E))
@@ -28,6 +28,8 @@ nod_ary = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 # Make Network function
 # Inputs: N - Total no of nodes, E - No. of Edges
 # Output: rnet - adjecency matrix
+# Exclude certain connection which may change the motif
+exE = [[0,3],[1,2],[2,1],[3,0]]
 def mk_net(N,E):
     e = 0
     # e will be the row number of the matrix
@@ -38,8 +40,7 @@ def mk_net(N,E):
         # e_val gives the nature of the connection
         e_val = random.randint(1,2)
         # check to see if embeded network in no changed
-        ### Can be imporoved ###
-        if e != e_cor and [e,e_cor] != [0,1] and [e,e_cor] != [1,0]:
+        if e != e_cor and rnet[e,e_cor] == 0 and [e,e_cor] not in exE: 
             rnet[e,e_cor] = e_val
             e = e + 1
     # Once all the nodes have atleast one connection, randomly assign connections.
@@ -49,7 +50,7 @@ def mk_net(N,E):
         ## Change if self actiavtion needed in random network nodes
         e_cor = random.sample(range(0,N),2)
         e_val = random.randint(1,2)
-        if rnet[e_cor[0], e_cor[1]] == 0:
+        if rnet[e_cor[0], e_cor[1]] == 0 and e_cor not in exE:
             rnet[e_cor[0], e_cor[1]] = e_val
             e = e + 1
     return rnet
@@ -77,10 +78,13 @@ for r in range(0,RN):
 
     # Embedding the toggle switch into the adjecency matrix
     rnet[0,1] = 2
-    rnet[0,0] = 1
+    rnet[0,2] = 2
     rnet[1,0] = 2
-    rnet[1,1] = 1
-
+    rnet[1,3] = 2
+    rnet[2,0] = 2
+    rnet[2,3] = 2
+    rnet[3,1] = 2
+    rnet[3,2] = 2
     # Run the make netwrok function; returns rnet
     mk_net(N,E)
     #print(np.count_nonzero(rnet))

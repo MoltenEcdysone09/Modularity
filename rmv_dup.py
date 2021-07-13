@@ -9,7 +9,7 @@ import hashlib
 import collections
 
 # Changing CWD to the topo file directory (Change is name different)
-os.chdir("TOPO710")
+os.chdir("TOPO910")
 
 # Create a lsit of all the topo files in a directory. Sorting not necessary but added for extra bling.
 tpfl = sorted(os.listdir())
