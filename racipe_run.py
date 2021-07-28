@@ -38,25 +38,25 @@ bmcli = []
 os.chdir("Results")
 
 for t in tpfl:
-    #subprocess.run("mkdir " + t[:-5], shell=True)
-    #mkrfol = "mkdir " + t[:-5] + "/1 " + t[:-5] + "/2 " + t[:-5] + "/3"
-    #subprocess.run(mkrfol, shell=True)
+    subprocess.run("mkdir " + t[:-5], shell=True)
+    mkrfol = "mkdir " + t[:-5] + "/1 " + t[:-5] + "/2 " + t[:-5] + "/3"
+    subprocess.run(mkrfol, shell=True)
     for sbdr in range(1,4):
-        #tfc = "cp " + cwd + "/" + tpdir + "/" + t + " " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr)  + "/"
-        #subprocess.call(tfc, shell=True)
-        #rcpli.append("./RACIPE " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr) + "/*.topo -num_paras 10 -num_ode 10")
+        tfc = "cp " + cwd + "/" + tpdir + "/" + t + " " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr)  + "/"
+        subprocess.call(tfc, shell=True)
+        rcpli.append("./RACIPE " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr) + "/*.topo -num_paras 10 -num_ode 10")
         bcp = "cp " + cwd + "/bmc_cor.py " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr)  + "/"
         subprocess.call(bcp, shell=True)
         bmcli.append("python3 " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr) + "/bmc_cor.py")
 
 
-#Rbtchs = [rcpli[i:i + numC] for i in range(0, len(rcpli), numC)]
-#os.chdir(rcpdir)
-#for rr in Rbtchs:
-#    rnRCP = " & ".join(rr) + " & wait"
-#    print(rnRCP)
-#    subprocess.run(rnRCP, shell=True)
-#    rlog.write(rnRCP + "\n")
+Rbtchs = [rcpli[i:i + numC] for i in range(0, len(rcpli), numC)]
+os.chdir(rcpdir)
+for rr in Rbtchs:
+    rnRCP = " & ".join(rr) + " & wait"
+    print(rnRCP)
+    subprocess.run(rnRCP, shell=True)
+    rlog.write(rnRCP + "\n")
 
 Bbtchs = [bmcli[i:i + numC] for i in range(0, len(bmcli), numC)]
 os.chdir(cwd+"/Results/")
