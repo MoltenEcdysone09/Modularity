@@ -1,30 +1,16 @@
-#General - needs only the number of embedded nodes
 import os
 import subprocess
 import glob
 import pandas as pd
 import statistics as stat
-import itertools
-from math import comb
-
-# Number of embedded nodes
-embN = 4
-
-#Node names
-nme = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-# Initialise an empty list for column names
-cln = []
-for x in range(0,embN):
-    cln.append(nme[x])
 
 cwd = os.getcwd()
 
 rlog = open("racipe_log.txt", "w")
 
-tpdir = "TOPO910"
-rcpdir = "/home/shdw/RACIPE-1.0-master/"
-numC = 39
+tpdir = "TOPO1260"
+rcpdir = "/home/csb/Pradyumna/MRacipe/"
+numC = 40
 
 os.chdir(tpdir)
 tpfl = sorted(glob.glob("*.topo"))
@@ -34,7 +20,7 @@ os.chdir("..")
 rcpli = []
 bmcli = []
 
-#subprocess.run("mkdir Results", shell=True)
+subprocess.run("mkdir Results", shell=True)
 os.chdir("Results")
 
 for t in tpfl:
@@ -44,16 +30,16 @@ for t in tpfl:
     for sbdr in range(1,4):
         tfc = "cp " + cwd + "/" + tpdir + "/" + t + " " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr)  + "/"
         subprocess.call(tfc, shell=True)
-        rcpli.append("./RACIPE " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr) + "/*.topo -num_paras 10 -num_ode 10")
+        rcpli.append("./RACIPE " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr) + "/*.topo -num_paras 10000 -num_ode 100 -threads " + str(numC))
         bcp = "cp " + cwd + "/bmc_cor.py " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr)  + "/"
         subprocess.call(bcp, shell=True)
         bmcli.append("python3 " + cwd + "/Results/" + t[:-5] + "/" + str(sbdr) + "/bmc_cor.py")
 
 
-Rbtchs = [rcpli[i:i + numC] for i in range(0, len(rcpli), numC)]
+#Rbtchs = [rcpli[i:i + numC] for i in range(0, len(rcpli), numC)]
 os.chdir(rcpdir)
-for rr in Rbtchs:
-    rnRCP = " & ".join(rr) + " & wait"
+for rr in rcpli:
+    rnRCP = rr + " & wait"
     print(rnRCP)
     subprocess.run(rnRCP, shell=True)
     rlog.write(rnRCP + "\n")
@@ -70,10 +56,10 @@ bcl = []
 for t in tpfl:
     CCcmd = "cat " + t[:-5] + "/1/corNP.txt " + t[:-5] + "/2/corNP.txt "+ t[:-5] + "/3/corNP.txt " + "> " + t[:-5] + "/CCNP.txt"
     BCcmd = "cat " + t[:-5] + "/1/bmc.txt " + t[:-5] + "/2/bmc.txt "+ t[:-5] + "/3/bmc.txt " + "> " + t[:-5] + "/BC.txt"
-#    GKcmd = "cat " + t[:-5] + "/1/gknorm.txt " + t[:-5] + "/2/gknorm.txt "+ t[:-5] + "/3/gknorm.txt " + "> " + t[:-5] + "/GK.txt"
+    GKcmd = "cat " + t[:-5] + "/1/gknorm.txt " + t[:-5] + "/2/gknorm.txt "+ t[:-5] + "/3/gknorm.txt " + "> " + t[:-5] + "/" + t[:-5] + "GK.txt"
     subprocess.run(CCcmd, shell=True)
     subprocess.run(BCcmd, shell=True)
-#    subprocess.run(GKcmd, shell=True)
+    subprocess.run(GKcmd, shell=True)
     os.chdir(t[:-5])
     cdf = pd.read_csv("CCNP.txt", header=None)
     tmpccl = [t[:-5]]
