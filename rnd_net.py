@@ -8,12 +8,12 @@ import random
 import os
 
 # Total Number of Nodes
-N = 9
+N = 22
 # Number of Edges (Except the embedded network)
-E = 10
+E = 120
 
 # Number of Random Netwroks needed
-RN = 3
+RN = 100
 
 # Create a directory in current working directory to store topo files
 os.mkdir("TOPO"+str(N)+str(E))
@@ -23,13 +23,11 @@ os.chdir("TOPO"+str(N)+str(E))
 
 # Placeholder letters fro writing in topofile
 # First N letters will belong to the embedded nodes
-nod_ary = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+nod_ary = list('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
 
 # Make Network function
 # Inputs: N - Total no of nodes, E - No. of Edges
 # Output: rnet - adjecency matrix
-# Exclude certain connection which may change the motif
-exE = [[0,3],[1,2],[2,1],[3,0]]
 def mk_net(N,E):
     e = 0
     # e will be the row number of the matrix
@@ -40,7 +38,8 @@ def mk_net(N,E):
         # e_val gives the nature of the connection
         e_val = random.randint(1,2)
         # check to see if embeded network in no changed
-        if e != e_cor and rnet[e,e_cor] == 0 and [e,e_cor] not in exE: 
+        ### Can be imporoved ###
+        if e != e_cor and [e,e_cor] != [0,1] and [e,e_cor] != [1,0]:
             rnet[e,e_cor] = e_val
             e = e + 1
     # Once all the nodes have atleast one connection, randomly assign connections.
@@ -50,7 +49,7 @@ def mk_net(N,E):
         ## Change if self actiavtion needed in random network nodes
         e_cor = random.sample(range(0,N),2)
         e_val = random.randint(1,2)
-        if rnet[e_cor[0], e_cor[1]] == 0 and e_cor not in exE:
+        if rnet[e_cor[0], e_cor[1]] == 0:
             rnet[e_cor[0], e_cor[1]] = e_val
             e = e + 1
     return rnet
@@ -78,13 +77,8 @@ for r in range(0,RN):
 
     # Embedding the toggle switch into the adjecency matrix
     rnet[0,1] = 2
-    rnet[0,2] = 2
     rnet[1,0] = 2
-    rnet[1,3] = 2
-    rnet[2,0] = 2
-    rnet[2,3] = 2
-    rnet[3,1] = 2
-    rnet[3,2] = 2
+
     # Run the make netwrok function; returns rnet
     mk_net(N,E)
     #print(np.count_nonzero(rnet))
@@ -94,6 +88,5 @@ for r in range(0,RN):
     # Write the elements in tpli into a topo file as lines
     with open('RN' + format(r+1, '03d') + ".topo", 'w') as tf:
         # E+2+1 as 2 nodes in embedded motif and 1 header line
-        for l in range(0,len(tpli)):
+        for l in range(0,E+2+1):
             tf.write(tpli[l]+"\n")
-
