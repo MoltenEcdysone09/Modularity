@@ -1,4 +1,3 @@
-#For C1
 from scipy.stats import skew, kurtosis, pearsonr, zscore, spearmanr
 import glob
 import pandas as pd
@@ -11,13 +10,13 @@ cwd = pathlib.Path(__file__).parent.absolute()
 os.chdir(cwd)
 print(os.getcwd())
 
-slfl = glob.glob(r"*solution*.dat")
+slfl = glob.glob(r"*solution_*.dat")
 
 #number of nodes in the network
-N = 9
+N = 12
 
 #number of embedded nodes in the network (motif)
-embN = 4
+embN = 2
 
 # Node List to find out the first N nodes (whose postions in the .prs file need to be found)
 nlst = "ABCDEFGHIJKLMNOPQRSTUVWZYZ"
@@ -48,7 +47,7 @@ def gkn(paralin, solin, colI, v):
     gknV = []
     for e in colI:
         gk = float(paralin[2+e])/float(paralin[2+e+N])
-        nod = pow(2,float(solin[(2 + N*v)]))/gk
+        nod = pow(2,float(solin[(2+e+N*v)]))/gk
         nod = math.log(nod,2)
         gknV.append(nod)
     return gknV
@@ -117,4 +116,4 @@ def bmc_calc(X):
 with open("bmc.txt","w") as bmc:
     for x in range(0,embN):
         bmc.write(str(bmc_calc(gvkdf.iloc[:,x]))+",")
-    bmc.write("\n")
+    bmc.write("\n")                  
