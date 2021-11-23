@@ -38,24 +38,26 @@ df = pd.read_csv("NORMtt.txt")
 #        yv = "0"
 #    hlli.append(xv+yv)
 
-#df["Steady States"] = hlli
+df["Steady States"] = hlli
 
 print(df)
 
-#sns.set_style("ticks")
-sns.set_theme()
-sns.set(rc={'figure.figsize':(9,7), 'figure.dpi':115})
-#sns.set_context("talk")
-sns.set_context("talk", font_scale=0.9, rc={"lines.linewidth": 2})
+sns.set(rc={'figure.figsize':(5,4)})
+sns.set_context("paper", rc={"font.size":24, "font.weight":'bold'})
+sns.set_style("ticks")
 
 #dist = list(df["A"]) + list(df["B"] + list(df["C"]))
 
 #sns.displot(x=dist, color="#bd5e57", kind="kde", fill=True)
-sns.displot(data=df, x="A", y="B", cmap="crest", cbar=True)
-#sns.regplot(data=df, x="A", y="B", color="#bd5e57")
+sns.displot(data=df, x="A", y="B", cmap="crest", cbar=True, kind="kde", fill=True)
+#sns.regplot(data=df, x="B", y="C", color="#bd5e57")
 #sns.countplot(data=df, x="Steady States", order=["10","01","00","11"])
 #sns.countplot(data=df, x="Steady States", order=["001","010", "100", "011","101","110","111","000"])
 #plt.ylabel("Count")
 #plt.xlabel("Steady State Value")
-plt.subplots_adjust(left=0.12, right=0.95, bottom=0.12, top=0.95, hspace=0, wspace=0)
+#plt.subplots_adjust(left=0.12, right=0.95, bottom=0.12, top=0.95, hspace=0, wspace=0)
+#sns.despine()
+plt.tight_layout()
+plt.savefig("BPtt.svg",dpi=300)
+plt.savefig("BPtt.png",dpi=300, pad_inches=0)
 plt.show()
