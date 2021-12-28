@@ -18,6 +18,6 @@ Contains data and plot codes for Isolated TS and TT motifs.
 Contains data and plot codes for TS embedded in random networks.
 
 ### TT_Plots
-Contains data and plot codes for TS embedded in random networks.
+Contains data and plot codes for TT embedded in random networks.
 
 
