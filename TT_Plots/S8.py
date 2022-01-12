@@ -34,54 +34,34 @@ sns.set_context("paper", rc={"font.weight":'bold',"legend.fontsize":12,"legend.t
 sns.set_style("ticks")
 
 # SCATTERPLOT CODE
-#mdf = mdf[(mdf["BC A"] >= 0.55) & (mdf["BC B"] >= 0.55)]
 plt.scatter(mdf["PNRA"], mdf["PNRB"], c=mdf["CC AB"],marker="o", cmap="Spectral", edgecolor="black", linewidth=0.7, alpha=0.8)
 cbar = plt.colorbar()
-
 plt.title("CC AB")
 plt.xlabel("log2(+ve InA/-ve InA)")
 plt.ylabel("log2(+ve InB/-ve InB)")
-
-##plt.title("E = 2N BC>=0.55")
 plt.tight_layout()
-plt.savefig("S9D.svg",dpi=400)
-plt.savefig("S9D.png",dpi=400, pad_inches=0)
+plt.savefig("S9Bi.svg",dpi=400)
+plt.savefig("S9Bi.png",dpi=400, pad_inches=0)
 plt.show()
 
 plt.scatter(mdf["PNRA"], mdf["PNRB"], c=mdf["BCABR"],marker="o", cmap="Spectral", edgecolor="black", linewidth=0.7, alpha=0.8)
 cbar = plt.colorbar()
-
 plt.title("log2(BC A/BC B)")
 plt.xlabel("log2(+ve InA/-ve InA)")
 plt.ylabel("log2(+ve InB/-ve InB)")
-
-##plt.title("E = 2N BC>=0.55")
 plt.tight_layout()
-plt.savefig("S9E.svg",dpi=400)
-plt.savefig("S9E.png",dpi=400, pad_inches=0)
+plt.savefig("S9Bii.svg",dpi=400)
+plt.savefig("S9Bii.png",dpi=400, pad_inches=0)
 plt.show()
 
 plt.scatter(mdf["PNRA"], mdf["PNRB"], c=mdf["ConPr"],marker="o", cmap="Spectral", edgecolor="black", linewidth=0.7, alpha=0.8)
 cbar = plt.colorbar()
-
-plt.title("Fraction of 01 & 10 States")
+plt.title("Fraction of Single High States")
 plt.xlabel("log2(+ve InA/-ve InA)")
 plt.ylabel("log2(+ve InB/-ve InB)")
-
-##plt.title("E = 2N BC>=0.55")
 plt.tight_layout()
-plt.savefig("S9F.svg",dpi=400)
-plt.savefig("S9F.png",dpi=400, pad_inches=0)
+plt.savefig("S9Biii.svg",dpi=400)
+plt.savefig("S9Biii.png",dpi=400, pad_inches=0)
 plt.show()
-
-
-
-
-
-
-
-
-
-
 
 
